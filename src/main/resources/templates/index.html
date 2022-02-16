@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Conference</title>
+</head>
+<body>
+    <div th:insert="mainMenu :: mainMenu"></div>
+
+    <h1>Расписание по аудиториям: </h1>
+    <div class="scheduleByRoom">
+        <th:block th:each="room: ${rooms}">
+            <a th:href="@{/room/{id}(id=${room.getId()})}" th:text="'Аудитория №' + ${room.getNumber()}"></a>
+        </th:block>
+    </div>
+</body>
+</html>

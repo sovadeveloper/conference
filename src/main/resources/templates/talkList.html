@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Доклады</title>
+</head>
+<body>
+    <div th:insert="mainMenu :: mainMenu"></div>
+
+    <div class="infoBlock">
+        <div>
+            <h1>Создать новый доклад</h1>
+            <form action="/talk" method="post">
+                <div>Навзание доклада: <input type="text" name="title"></div>
+                <div>Текст доклада: <textarea name="text" id="" cols="30" rows="10" ></textarea></div>
+                <div><input type="submit" value="Создать"></div>
+            </form>
+        </div>
+        <h1 th:text="'Доклады пользователя ' + ${currentUser.getUsername()}"></h1>
+        <div th:if="${!talks.isEmpty()}">
+            <div th:each="talk: ${talks}">
+                <a href="#" th:text="${talk.getTitle()}"></a>
+                <a th:onclick="'removeUserFromTalk('+ ${talk.getId()} + ', ' + ${currentUser.getId()} + ')'" th:text="Отказаться"></a>
+<!--                <a th:data-talk="${talk}" th:data-user="currentUser"-->
+<!--                   th:onclick="'removeUserFromTalk(' + this.getAttribute('data-talk'), this.getAttribute('data-user') +')'"-->
+<!--                   th:text="Отказаться"></a>-->
+<!--                <a th:data-talk="${talk}" th:data-user="currentUser"-->
+<!--                   th:onclick="removeUserFromTalk([[${talk}]],[[${currentUser}]])"-->
+<!--                   th:text="Отказаться"></a>-->
+<!--                    <a th:onclick="'newRoleUser('+ ${user.getId()} + ')'">-->
+            </div>
+        </div>
+        <div th:if="${talks.isEmpty()}">
+            <p>Пока что не существует ни одного доклада</p>
+        </div>
+        <a href="/">Вернуться на главную</a>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.js "></script>
+    <script type="text/javascript" src="/js/talk.js"></script>
+</body>
+</html>

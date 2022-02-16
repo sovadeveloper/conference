@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список пользователей</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.js "></script>
+    <script type="text/javascript" src="/js/user.js"></script>
+</head>
+<body>
+    <div th:insert="mainMenu :: mainMenu"></div>
+
+    <div class="infoBlock">
+        <h1>Пользователи</h1>
+        <div th:if="${!users.isEmpty()}">
+            <table>
+                <thead>
+                    <tr>Имя</tr>
+                    <tr>Роль</tr>
+                    <div th:if="${currentUser != null}">
+                            <div th:if="${currentUser.getRole().name().equals('ADMIN')}">
+                                <tr th:colspan="2">Actions</tr>
+                            </div>
+                    </div>
+                </thead>
+                <tbody>
+                    <tr th:each="user: ${users}">
+                        <td th:text="${user.getUsername()}"></td>
+                        <td th:text="${user.getRole().name()}"></td>
+                        <div th:if="${currentUser != null}">
+                                <div th:if="${currentUser.getRole().name() == 'ADMIN'}">
+                                    <div th:if="${currentUser.getUsername() != user.getUsername()}">
+                                        <div th:if="${user.getRole().name() != 'SPEAKER'}">
+                                            <td><a th:onclick="'newRoleUser('+ ${user.getId()} + ')'">Сделать спикером</a></td>
+                                        </div>
+                                        <td><a th:onclick="'deleteUser('+ ${user.getId()} + ')'">Удалить</a></td>
+                                    </div>
+                                </div>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${users.isEmpty()}">
+            <p>Пока что не существует ни одного пользователя</p>
+        </div>
+        <a href="/">Вернуться на главную</a>
+    </div>
+</body>
+</html>

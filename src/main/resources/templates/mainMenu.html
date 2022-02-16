@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="mainMenu">
+    <div class="mainMenu">
+        <div class="leftSectionMenu">
+            <a href="/">Conference</a>
+            <div th:if="${currentUser != null}">
+                <div th:if="${currentUser.getRole().name() == 'SPEAKER'}">
+                    <a href="/talk/list">Доклады</a>
+                </div>
+                <div th:if="${currentUser.getRole().name() == 'ADMIN'}">
+                    <a href="/talk/list">Доклады</a>
+                    <a href="/user/list">Пользователи</a>
+                </div>
+            </div>
+        </div>
+        <div class="rightSectionMenu">
+            <div th:if="${currentUser != null}">
+                <span th:text="${currentUser.getUsername()}"></span>
+            </div>
+            <div th:if="${currentUser == null}">
+                <span th:text="'Please login'"></span>
+            </div>
+            <div th:if="${currentUser == null}">
+                <a th:href="@{/login}">Войти</a>
+            </div>
+            <div th:if="${currentUser != null}">
+                <form action="/logout" method="post">
+                    <input type="submit" value="Выйти">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
