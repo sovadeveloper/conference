@@ -9,8 +9,8 @@ create table room (
 
 create table schedule (
     id bigint not null,
-    end timestamp not null,
-    start timestamp not null,
+    date_end timestamp not null,
+    date_start timestamp not null,
     room_id bigint,
     talk_id bigint,
     primary key (id)

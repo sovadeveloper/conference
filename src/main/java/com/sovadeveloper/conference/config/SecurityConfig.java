@@ -5,6 +5,7 @@ import com.sovadeveloper.conference.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserServiceImpl userServiceImpl;
 
     @Autowired
-    public SecurityConfig(UserServiceImpl userServiceImpl) {
+    public SecurityConfig(@Lazy UserServiceImpl userServiceImpl) {
         this.userServiceImpl = userServiceImpl;
     }
 
@@ -28,8 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/user/**").hasAuthority(Role.ADMIN.name())
-                    .antMatchers("/talkList").hasAnyAuthority(Role.ADMIN.name(), Role.SPEAKER.name())
+                    .antMatchers("/user/**")
+                        .hasAuthority(Role.ADMIN.getAuthority())
+                    .antMatchers("/talk/**", "/api/**")
+                        .hasAnyAuthority(Role.ADMIN.getAuthority(), Role.SPEAKER.getAuthority())
                     .antMatchers("/", "/registration", "/h2-console/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
@@ -50,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    protected PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
 }

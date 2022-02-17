@@ -17,10 +17,10 @@ public class ScheduleEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "start", nullable = false)
+    @Column(name = "date_start", nullable = false)
     private LocalDateTime dateStart;
 
-    @Column(name = "end", nullable = false)
+    @Column(name = "date_end", nullable = false)
     private LocalDateTime dateEnd;
 
     @ManyToOne

@@ -26,13 +26,11 @@ public class RoomController {
     }
 
     @GetMapping("/room/{roomId}")
-
     public String showScheduleForRoom(@AuthenticationPrincipal UserEntity currentUser,
                                       @PathVariable Long roomId, Model model) throws Exception {
         model.addAttribute("room", roomService.getById(roomId));
         model.addAttribute("schedule", roomService.getScheduleByRoom(roomId));
         model.addAttribute("currentUser", currentUser);
-        System.out.println(currentUser);
         return "scheduleByRoom";
     }
 }
