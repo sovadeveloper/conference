@@ -26,6 +26,16 @@ public class ScheduleRestController {
         }
     }
 
+    @GetMapping("/byRoom/{id}")
+    public ResponseEntity getAllByRoom(@PathVariable Long id){
+        try {
+            return ResponseEntity.ok(scheduleService.getScheduleByRoom(id));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e);
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity getById(@PathVariable Long id){
         try {
@@ -36,9 +46,10 @@ public class ScheduleRestController {
         }
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity create(@RequestBody ScheduleEntity scheduleEntity){
         try {
+            System.out.println(scheduleEntity);
             return ResponseEntity.ok(scheduleService.create(scheduleEntity));
         }catch (Exception e){
             e.printStackTrace();

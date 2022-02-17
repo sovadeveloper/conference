@@ -1,6 +1,5 @@
 package com.sovadeveloper.conference.controllers;
 
-import com.sovadeveloper.conference.dto.TalkDTO;
 import com.sovadeveloper.conference.entities.TalkEntity;
 import com.sovadeveloper.conference.entities.UserEntity;
 import com.sovadeveloper.conference.services.TalkService;
@@ -59,10 +58,20 @@ public class TalkRestController {
         }
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/deleteUser/{id}")
     public ResponseEntity deleteUserFromTalk(@RequestBody TalkEntity talkEntityUpdated){
         try {
             return ResponseEntity.ok(talkService.deleteUserFromTalk(talkEntityUpdated));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e);
+        }
+    }
+
+    @PatchMapping("/addUser/{id}")
+    public ResponseEntity addUserToTalk(@RequestBody TalkEntity talkEntityUpdated){
+        try {
+            return ResponseEntity.ok(talkService.addUserToTalk(talkEntityUpdated));
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e);

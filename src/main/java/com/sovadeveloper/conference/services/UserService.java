@@ -1,5 +1,6 @@
 package com.sovadeveloper.conference.services;
 
+import com.sovadeveloper.conference.dto.TalkDTO;
 import com.sovadeveloper.conference.dto.UserDTO;
 import com.sovadeveloper.conference.entities.UserEntity;
 
@@ -11,4 +12,5 @@ public interface UserService {
     UserDTO edit(UserDTO userDTOUpdated) throws Exception;
     Long delete(Long id) throws Exception;
     List<UserDTO> getAll() throws Exception;
+    List<UserDTO> getFreeSpeakersForTalk(TalkDTO talkDTO);
 }

@@ -12,6 +12,7 @@ public interface TalkService {
     TalkDTO edit(Long id, TalkEntity talkEntityUpdated) throws Exception;
     Long delete(Long id) throws Exception;
     TalkDTO deleteUserFromTalk(TalkEntity talkEntityUpdated) throws Exception;
+    TalkDTO addUserToTalk(TalkEntity talkEntityUpdated) throws Exception;
     List<TalkDTO> getAll() throws Exception;
     List<TalkDTO> getByUser(UserEntity userEntity) throws Exception;
 }

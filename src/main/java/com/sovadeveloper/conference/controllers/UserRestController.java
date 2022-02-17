@@ -47,16 +47,6 @@ public class UserRestController {
         }
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity edit(@PathVariable Long id, @RequestBody UserEntity userEntity){
-//        try {
-//            return ResponseEntity.ok(userService.edit(id, userEntity));
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            return ResponseEntity.badRequest().body(e);
-//        }
-//    }
-
     @PatchMapping("/{id}")
     public ResponseEntity edit(@RequestBody UserDTO userDTO){
         try {

@@ -1,7 +1,6 @@
 package com.sovadeveloper.conference.services.impl;
 
 import com.sovadeveloper.conference.dto.TalkDTO;
-import com.sovadeveloper.conference.dto.UserDTO;
 import com.sovadeveloper.conference.entities.TalkEntity;
 import com.sovadeveloper.conference.entities.UserEntity;
 import com.sovadeveloper.conference.repositories.TalkRepo;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class TalkServiceImpl implements TalkService {
@@ -70,7 +68,15 @@ public class TalkServiceImpl implements TalkService {
     public TalkDTO deleteUserFromTalk(TalkEntity talkEntityUpdated) throws Exception {
         TalkEntity talkEntityFromDB = talkRepo.findById(talkEntityUpdated.getId())
                 .orElseThrow(() -> new Exception("Такого доклада не существует"));
-        talkEntityFromDB.deleteUser(userRepo.getById(talkEntityFromDB.getUsers().stream().findFirst().get().getId()));
+        talkEntityFromDB.deleteUser(userRepo.getById(talkEntityUpdated.getUsers().stream().findFirst().get().getId()));
+        return TalkDTO.toModel(talkRepo.save(talkEntityFromDB));
+    }
+
+    @Override
+    public TalkDTO addUserToTalk(TalkEntity talkEntityUpdated) throws Exception {
+        TalkEntity talkEntityFromDB = talkRepo.findById(talkEntityUpdated.getId())
+                .orElseThrow(() -> new Exception("Такого доклада не существует"));
+        talkEntityFromDB.addUser(userRepo.getById(talkEntityUpdated.getUsers().stream().findFirst().get().getId()));
         return TalkDTO.toModel(talkRepo.save(talkEntityFromDB));
     }
 

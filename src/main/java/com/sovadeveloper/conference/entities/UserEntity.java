@@ -34,16 +34,6 @@ public class UserEntity implements UserDetails {
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private Set<TalkEntity> talks;
 
-    public void addTalk(TalkEntity talkEntity){
-        this.talks.add(talkEntity);
-        talkEntity.getUsers().add(this);
-    }
-
-    public void deleteTalk(TalkEntity TalkEntity){
-        this.talks.remove(TalkEntity);
-        TalkEntity.getUsers().remove(this);
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -69,18 +59,5 @@ public class UserEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isActive();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserEntity that = (UserEntity) o;
-        return active == that.active && Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && role == that.role && Objects.equals(talks, that.talks);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, password, active, role, talks);
     }
 }

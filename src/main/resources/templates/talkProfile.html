@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Доклад ' + ${talk.getTitle()}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+          crossorigin="anonymous">
+</head>
+<body>
+    <div th:insert="mainMenu :: mainMenu"></div>
+
+    <div>
+        <h2 class="text-center mt-2" th:text="'Название доклада'"></h2>
+        <div class="text-center mt-2" th:text="'Доклад ' + ${talk.getTitle()}"></div>
+        <h2 class="text-center mt-2" th:text="'Текст доклада'"></h2>
+        <div class="text-center mt-2" th:text="${talk.getText()}"></div>
+        <h2 class="text-center mt-2" th:text="'Спикеры'"></h2>
+        <div th:each="user: ${talk.getUsers()}">
+            <div class="text-center mt-2" th:text="'Спикер: ' + ${user.getUsername()}"></div>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="text-center mt-2" th:text="'Добавить нового спикера'"></h2>
+        <div th:if="${!speakers.isEmpty()}" class="container">
+            <div class="row">
+                <div class="col-6 offset-3 text-center">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th scope="col">Спикер</th>
+                            <th scope="col">Пригласить</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="speaker: ${speakers}">
+                            <td th:text="${speaker.getUsername()}"></td>
+                            <td>
+                                <a class="btn btn-success" th:onclick="'addUserToTalk(' + ${talk.getId()} + ', ' + ${speaker.getId()} + ')'" th:text="Добавить"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="text-center mt-2" th:text="'Создать новую запись в расписании'"></h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 offset-3 text-center">
+                        <div class="mb-2">
+                            <label for="start" class="form-label">Время начала</label>
+                            <input class="form-control" type="datetime-local" name="start" id="start">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 offset-3 text-center">
+                        <div class="mb-2">
+                            <label for="end" class="form-label">Время окончания</label>
+                            <input class="form-control" type="datetime-local" name="end" id="end">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 offset-3 text-center">
+                        <div class="mb-2">
+                            <label class="form-label">Выбор аудитории</label>
+                            <select name="room" class="room">
+                                <option th:each="rm: ${rooms}" th:value="${rm.getId()}" th:text="'Аудитория ' + ${rm.getNumber()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 offset-3 text-center">
+                        <input type="hidden" name="talk" th:value="${talk.getId()}" class="talk">
+                        <a class="btn btn-primary" th:onclick="'addSchedule()'" th:text="Добавить"></a>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <div>
+        <h2 class="text-center mt-2" th:text="'Расписание на доклад'"></h2>
+        <div th:if="${!schedule.isEmpty()}" class="container">
+            <div class="row">
+                <div class="col-6 offset-3 text-center">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Начало</th>
+                            <th>Конец</th>
+                            <th>Аудитория</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="sc: ${schedule}">
+                            <td th:text="${#temporals.format(sc.getDateStart(), 'dd MMMM yyyy HH:mm')}"></td>
+                            <td th:text="${#temporals.format(sc.getDateEnd(), 'dd MMMM yyyy HH:mm')}"></td>
+                            <td th:text="${sc.getRoom().getNumber()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div th:if="${schedule.isEmpty()}" class="container">
+            <div class="row">
+                <div class="col-6 offset-3 text-center">
+                    <p class="fs-5" th:text="'Данный доклад еще не внесен в расписание'"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.js "></script>
+    <script type="text/javascript" src="/js/talk.js"></script>
+    <script type="text/javascript" src="/js/schedule.js"></script>
+</body>
+</html>
