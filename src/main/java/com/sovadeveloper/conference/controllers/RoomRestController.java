@@ -1,6 +1,5 @@
 package com.sovadeveloper.conference.controllers;
 
-import com.sovadeveloper.conference.dto.RoomDTO;
 import com.sovadeveloper.conference.entities.RoomEntity;
 import com.sovadeveloper.conference.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
